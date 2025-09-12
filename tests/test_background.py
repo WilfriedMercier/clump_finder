@@ -7,10 +7,26 @@ Test the background functions.
 """
 
 import finder
+import pytest
+import pathlib
+import astropy.io.fits   as     fits
 import numpy             as     np
-import astropy.units     as     u
+from   numpy.typing      import NDArray
 
-class Test_bg_threshold_n_sigma():
+@pytest.fixture
+def data_99() -> tuple[NDArray, NDArray]:
+
+    # Open residual image
+    with fits.open(pathlib.Path('tests/test_data/99_residual.fits')) as hdul:
+        image = hdul[0].data # type: ignore
+    
+    # Open segmentation map
+    with fits.open(pathlib.Path('tests/test_data/99_segmentation.fits')) as hdul:
+        segmentation = hdul[0].data # type: ignore
+
+    return image, segmentation
+
+class Test_bg_threshold_n_sigma:
     r'''Test suite for the bg_threshold_n_sigma function.'''
 
     # Test that the std of a flat image is 0
@@ -108,3 +124,78 @@ class Test_bg_threshold_n_sigma():
         )
 
         assert sigma == 0
+
+class Test_find_bg_threshold:
+    r'''Suite of tests to test the find_bg_threshold function.'''
+
+    def test_dtr_galaxy(self, 
+            data_99 : tuple[NDArray, NDArray]
+        ):
+
+        # Find the lowest threshold
+        threshold = finder.find_bg_threshold(
+            data_99[0],
+            0,
+            data_99[1] == 0,
+            20,
+            positive = True
+        )
+
+        # Find for substructures in the background regions using the threshold
+        cfinder = finder.ClumpFinder(
+            data_99[0],
+            mask    = data_99[1] == 0,
+            mask_bg = data_99[1] == 0
+        )
+
+        segmap = cfinder.detect(0, threshold, 20) # type: ignore
+
+        assert len(data_99[0][segmap != 0]) == 0
+    
+    def test_lower_than_dtr(self, 
+            data_99 : tuple[NDArray, NDArray]
+        ):
+
+        # Find the lowest threshold
+        threshold = finder.find_bg_threshold(
+            data_99[0],
+            0,
+            data_99[1] == 0,
+            20,
+            positive = True
+        )
+
+        # Find for substructures in the background regions using the threshold
+        cfinder = finder.ClumpFinder(
+            data_99[0],
+            mask    = data_99[1] == 0,
+            mask_bg = data_99[1] == 0
+        )
+
+        segmap = cfinder.detect(0, threshold/4, 20) # type: ignore
+
+        assert len(data_99[0][segmap != 0]) > 0
+
+    def test_higher_than_dtr(self,     
+            data_99 : tuple[NDArray, NDArray]
+        ):
+
+        # Find the lowest threshold
+        threshold = finder.find_bg_threshold(
+            data_99[0],
+            0,
+            data_99[1] == 0,
+            20,
+            positive = True
+        )
+
+        # Find for substructures in the background regions using the threshold
+        cfinder = finder.ClumpFinder(
+            data_99[0],
+            mask    = data_99[1] == 0,
+            mask_bg = data_99[1] == 0
+        )
+
+        segmap = cfinder.detect(0, threshold*3, 20) # type: ignore
+
+        assert len(data_99[0][segmap != 0]) == 0
