@@ -40,16 +40,17 @@ def bg_threshold_n_sigma(image    : NDArray[np.float32],
 
     return n_sigma * np.nanstd((image - model)[mask_bg]) #type: ignore
 
-def find_bg_threshold(image    : NDArray[np.float32], 
-                      model    : NDArray[np.float32] | float, 
-                      mask_bg  : NDArray[np.bool   ] | bool,
-                      surface  : int,
-                      positive : bool = True
+def find_bg_threshold(image     : NDArray[np.float32], 
+                      model     : NDArray[np.float32] | float, 
+                      mask_bg   : NDArray[np.bool   ] | bool,
+                      surface   : int,
+                      positive  : bool = True,
+                      precision : float = 0.1
                      ) -> float:
     r'''
     .. codeauthor:: Wilfried Mercier - LAM <wilfried.mercier@lam.fr>
     
-    Find the lowest threshold that does not detect substructures in the background pixels of a residual image.
+    Find the lowest background threshold that does not detect substructures in the background pixels of a residual image.
     
     :param image: image of the galaxy
     :type image: numpy.ndarray
@@ -65,8 +66,10 @@ def find_bg_threshold(image    : NDArray[np.float32],
     :param bool positive: whether to find the best threshold for substructures with 
         - positive fluxes (:python:`positive = True`) or
         - negative fluxes (:python:`positive = False`)
+
+    :param float precision: precision on the flux threshold used to stop the dichotomy
     
-    :returns: background flux threshold in units of the image
+    :returns: number of standard deviations in the background regions of the residuals
     :rtype: float
     '''
     
@@ -95,7 +98,7 @@ def find_bg_threshold(image    : NDArray[np.float32],
         bg_clump_map = bg_clump_finder.detect(model, n_sigma_up, surface=surface)
         
     # Loop until we reach the required precision
-    while n_sigma_up - n_sigma > 0.1:
+    while n_sigma_up - n_sigma > precision:
         
         # Search for clumps at the middle of the range
         n_sigma_mid  = (n_sigma_up + n_sigma)/2
