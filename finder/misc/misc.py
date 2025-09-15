@@ -8,10 +8,21 @@ Miscellaneous functions.
 
 import regions
 import logging
+import enum
 import astropy.units       as u
 import astropy.cosmology   as cosmology
 import numpy               as np
 from   numpy.typing        import NDArray
+
+class DETECTION_TYPE(enum.Enum):
+    r'''
+    .. codeauthor:: Wilfried Mercier - LAM <wilfried.mercier@lam.fr>
+
+    Various types of detection techniques. See `Mercier et al. (2025) <https://arxiv.org/abs/2506.13881>`_.
+    '''
+    
+    OPTIMAL   = enum.auto()
+    INTRINSIC = enum.auto()
 
 def generate_bulge_mask(
         ra_pix     : int,
