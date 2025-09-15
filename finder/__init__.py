@@ -19,3 +19,8 @@ from .substructure_properties import (
     compute_property_substructure,
     compute_properties_substructures
 )
+
+from .misc import (
+    DETECTION_TYPE,
+    compute_surface_mask
+)
