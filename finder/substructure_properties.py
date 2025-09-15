@@ -26,7 +26,7 @@ def compute_property_substructure(
     :param sub_segmap: segmentation map of the detected substructures
     :type sub_segmap: numpy.ndarray
 
-    :raises ValueError: :python:`if idc not in sub_segmap`
+    :raises: ValueError if :python:`idc not in sub_segmap`
 
     :returns: substructure flux (same unit as :python:`image`) and its area in pixels
     :rtype: :python:`(float, int)`
