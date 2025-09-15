@@ -14,3 +14,8 @@ from .detection_curves import (
     flux_detection_curve_pixel_level,
     surface_detection_curve
 )
+
+from .substructure_properties import (
+    compute_property_substructure,
+    compute_properties_substructures
+)
