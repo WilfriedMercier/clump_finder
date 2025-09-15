@@ -22,5 +22,6 @@ from .substructure_properties import (
 
 from .misc import (
     DETECTION_TYPE,
-    compute_surface_mask
+    compute_surface_mask,
+    generate_bulge_mask
 )
