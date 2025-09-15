@@ -12,8 +12,8 @@ from   numpy.typing import NDArray
 
 def compute_property_substructure(
         idc        : int,
-        image      : NDArray[np.float32], 
-        sub_segmap : NDArray[np.int16]
+        image      : NDArray[np.floating], 
+        sub_segmap : NDArray[np.integer]
     ) -> tuple[float, int]:
     r'''
     .. codeauthor:: Wilfried Mercier - LAM <wilfried.mercier@lam.fr>
@@ -26,8 +26,10 @@ def compute_property_substructure(
     :param sub_segmap: segmentation map of the detected substructures
     :type sub_segmap: numpy.ndarray
 
-    :returns: substructure flux (same unit as **image**) and its area in pixels
-    :rtype: float, int
+    :raises ValueError: :python:`if idc not in sub_segmap`
+
+    :returns: substructure flux (same unit as :python:`image`) and its area in pixels
+    :rtype: :python:`(float, int)`
     '''
 
     logger = logging.getLogger(__name__)
@@ -51,8 +53,8 @@ def compute_property_substructure(
     return flux, area #type: ignore
 
 def compute_properties_substructures(
-        image      : NDArray[np.float32], 
-        sub_segmap : NDArray[np.int16]
+        image      : NDArray[np.floating], 
+        sub_segmap : NDArray[np.integer]
     ) -> tuple[list[int], list[float], list[int]]:
     r'''
     .. codeauthor:: Wilfried Mercier - LAM <wilfried.mercier@lam.fr>
@@ -64,8 +66,8 @@ def compute_properties_substructures(
     :param sub_segmap: segmentation map of the detected substructures
     :type sub_segmap: numpy.ndarray
 
-    :returns: IDs of substructures, their flux, their area in pixels
-    :rtype: list[int], list[float], list[int]
+    :returns: IDs of substructures, their flux (same unit as :python:`image`), and their area in pixels
+    :rtype: :python:`(list[int], list[float], list[int])`
     '''
 
     flux_sub = []
