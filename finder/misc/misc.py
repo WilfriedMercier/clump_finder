@@ -135,7 +135,7 @@ def find_neighbours(pixel       : tuple[int, int],
 def compute_surface_mask(segmap  : NDArray[np.integer], 
                          value   : int = 1,
                          surface : int = 0
-                        ) -> np.ndarray | None:
+                        ) -> NDArray[np.integer] | None:
     r'''
     .. codeauthor:: Wilfried Mercier - LAM <wilfried.mercier@lam.fr>
     
