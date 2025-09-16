@@ -20,20 +20,18 @@ class ClumpFinder:
 
     .. important::
 
-        One can provide the residual image instead of the galaxy image. In such a case, call :py:class:`ClumpFinder.detect` with :python:`model_im = 0` to detect substructures in the residuals.
+        One can provide the residual image instead of the galaxy image. 
+        In such a case, call :meth:`~clump_finder.finder.ClumpFinder.detect` with :python:`model_im = 0` to detect substructures in the residuals.
     
     :param image: image of the galaxy in the given band
-    :type image: numpy.ndarray
-    
-    Keyword arguments
-    -----------------
+    :type image: `NDArray`_
     
     :param mask: segmentation mask for the galaxy with :python:`True` for pixels belonging to the galaxy. If :python:`None`, the mask is set to :python:`True` (i.e. all pixels are considered to belong to the galaxy).
-    :type mask: numpy.ndarray or :python:`bool` or :python:`None`
+    :type mask: `NDArray`_ or :python:`bool` or :python:`None`
     :param mask_bg: segmentation mask for the background only with :python:`True` for pixels belonging to the background. If :python:`None`, the background cannot be estimated.
-    :type mask_bg: numpy.ndarray or :python:`bool` or :python:`None`
+    :type mask_bg: `NDArray`_ or :python:`bool` or :python:`None`
     :param mask_bulge: mask that hides parts of the galaxy that are in the bulge. :python:`True` for pixels in the bulge zone and :python:`False` for pixels outside.
-    :type mask_bulge: numpy.ndarray or :python:`bool` or :python:`None`
+    :type mask_bulge: `NDArray`_ or :python:`bool` or :python:`None`
     '''
     
     def __init__(
@@ -93,22 +91,26 @@ class ClumpFinder:
             
         .. note::
             
-            This technique identifies under- and over-densities above a given threshold in the image.
+            This technique identifies both under- and over-densities above a given threshold in the image.
         
         :param model_im: 2D model of the galaxy
-        :type model_im: numpy.ndarray or :python:`float`
-        :param float flux_threshold: threshold used to determine whether a pixel is bright enough or not
-        :param int surface: surface criterion (in pixels) to determine whether a structure is extended enough or not
+        :type model_im: `NDArray`_ or :python:`float`
+        :param flux_threshold: threshold used to determine whether a pixel is bright enough or not
+        :type flux_threshold: :python:`float`
+        :param surface: surface criterion in pixels to decide whether a structure is sufficiently extended or not
+        :type surface: :python:`int`
         
         :returns: clump detection map with one value per substructure with
+        
             - negative values for under-dense pixels
             - positive values for over-dense pixels (i.e. substructures)
             - 0 for the background
             
-        :rtype: np.ndarray (same shape as :python:`model_im`)
+        :rtype: `NDArray`_ with the same shape as :python:`model_im`
         
         :raises: :python:`ValueError` if 
-            - there is no background mask given at init
+            
+            - there is no background mask given at initialization
             - :python:`n_sigma < 0`
         '''
 
