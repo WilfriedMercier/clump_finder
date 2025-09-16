@@ -22,19 +22,15 @@ def bg_threshold_n_sigma(image    : NDArray[np.float32],
     Given an image with background pixels, measure n times the standard deviation of the background in the residuals.
     
     :param image: image of the galaxy
-    :type image: numpy.ndarray
+    :type image: `NDArray`_
     :param model: 2D model of the galaxy. If :python:`image` corresponds to the residuals, use :python:`model = 0`.
-    :type model: numpy.ndarray
+    :type model: `NDArray`_
     :param mask_bg: mask with :python:`True` for pixels that belong to the background
-    :type mask_bg: numpy.ndarray
-
-    Keyword arguments
-    -----------------
-
+    :type mask_bg: `NDArray`_
     :param n_sigma: number of standard deviations of the background to estimate
-    :type n_sigma: :python:`int` or python:`float`
+    :type n_sigma: :python:`int` or :python:`float`
     
-    :returns: n sigma level
+    :returns: n times the standard deviation of the background signal in the residuals.
     :rtype: :python:`float`
     '''
 
@@ -53,24 +49,25 @@ def find_bg_threshold(image     : NDArray[np.float32],
     Find the lowest background threshold that does not detect substructures in the background pixels of a residual image.
     
     :param image: image of the galaxy
-    :type image: numpy.ndarray
+    :type image: `NDArray`_
     :param model: 2D model of the galaxy. If :python:`image` corresponds to the residuals, use :python:`model = 0`.
-    :type model: numpy.ndarray
+    :type model: `NDArray`_
     :param mask_bg: mask with :python:`True` for pixels that belong to the background
-    :type mask_bg: numpy.ndarray
-    :param int surface: minimum surface in pixels that a structure must have in order to be detected
-    
-    Keyword arguments
-    -----------------
-    
-    :param bool positive: whether to find the best threshold for substructures with 
+    :type mask_bg: `NDArray`_
+    :param surface: minimum surface in pixels that a structure must have in order to be detected
+    :type surface: :python:`int`
+    :param positive: whether to find the best threshold for substructures with 
+
         - positive fluxes (:python:`positive = True`) or
         - negative fluxes (:python:`positive = False`)
 
-    :param float precision: precision on the flux threshold used to stop the dichotomy
+    :type positive: :python:`bool`
+
+    :param precision: precision on the flux threshold used to stop the dichotomy
+    :type precision: :python:`float`
     
-    :returns: number of standard deviations in the background regions of the residuals
-    :rtype: float
+    :returns: Number of standard deviations in the background regions of the residuals.
+    :rtype: :python:`float`
     '''
     
     def cond(clump_map: np.ndarray, positive: bool):

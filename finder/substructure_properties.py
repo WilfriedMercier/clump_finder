@@ -6,7 +6,6 @@ r"""
 Functions useful to extract the flux and area of substructures after detection.
 """
 
-import logging
 import numpy        as     np
 from   numpy.typing import NDArray
 
@@ -20,29 +19,26 @@ def compute_property_substructure(
 
     Determine the flux and area of a given substructure in a galaxy.
 
-    :param int idc: ID of the substructure ID. It must be a value in the substructure segmentation map.
+    .. note::
+
+        The flux is given in the same unit as :python:`image` (i.e. sum of pixels) and the area in :math:`\rm pixels`. 
+
+    :param idc: ID of the substructure. It must be a value present in the substructure segmentation map.
+    :type idc: :python:`int`
     :param image: residual map used to estimate the flux of the substructure
-    :type image: numpy.ndarray
+    :type image: `NDArray`_
     :param sub_segmap: segmentation map of the detected substructures
-    :type sub_segmap: numpy.ndarray
+    :type sub_segmap: `NDArray`_
 
-    :raises: ValueError if :python:`idc not in sub_segmap`
+    :raises: :python:`ValueError` if :python:`idc not in sub_segmap`
 
-    :returns: substructure flux (same unit as :python:`image`) and its area in pixels
+    :returns: Flux and area of the substructure.
     :rtype: :python:`(float, int)`
     '''
 
-    logger = logging.getLogger(__name__)
-
-    logger.debug(f'Computing properties of substructure ID {idc}.')
-
     # Checking that ID is correct
-    try:
-        if idc not in sub_segmap:
-            raise ValueError(f'Substructure ID is {idc} but only IDs {np.unique(sub_segmap)} are in the segmentation map.')
-    except ValueError as e:
-        logger.error(str(e))
-        raise
+    if idc not in sub_segmap:
+        raise ValueError(f'Substructure ID is {idc} but only IDs {np.unique(sub_segmap)} are in the segmentation map.')
 
     # Total flux of detected substructure
     flux = np.nansum(res_masked := image[sub_segmap == idc])
@@ -60,13 +56,17 @@ def compute_properties_substructures(
     .. codeauthor:: Wilfried Mercier - LAM <wilfried.mercier@lam.fr>
 
     Determine the flux and area of each substructure in the given galaxy.
+    
+    .. note::
+
+        Flux values are given in the same unit as :python:`image` (i.e. sum of pixels) and areas are in :math:`\rm pixels`. 
 
     :param image: image used to estimate the flux in substructures
-    :type image: numpy.ndarray
+    :type image: `NDArray`_
     :param sub_segmap: segmentation map of the detected substructures
-    :type sub_segmap: numpy.ndarray
+    :type sub_segmap: `NDArray`_
 
-    :returns: IDs of substructures, their flux (same unit as :python:`image`), and their area in pixels
+    :returns: IDs of substructures, their flux, and their area in pixels.
     :rtype: :python:`(list[int], list[float], list[int])`
     '''
 

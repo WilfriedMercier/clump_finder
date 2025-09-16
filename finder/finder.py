@@ -97,7 +97,7 @@ class ClumpFinder:
         :type model_im: `NDArray`_ or :python:`float`
         :param flux_threshold: threshold used to determine whether a pixel is bright enough or not
         :type flux_threshold: :python:`float`
-        :param surface: surface criterion in pixels to decide whether a structure is sufficiently extended or not
+        :param surface: surface criterion in :python:`pixels` to decide whether a structure is sufficiently extended or not
         :type surface: :python:`int`
         
         :returns: clump detection map with one value per substructure with

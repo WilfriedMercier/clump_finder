@@ -21,7 +21,10 @@ class DETECTION_TYPE(enum.Enum):
     Various types of detection techniques. See `Mercier et al. (2025) <https://arxiv.org/abs/2506.13881>`_.
     '''
     
+    #: Optimal detection
     OPTIMAL   = enum.auto()
+
+    #: Intrinsic detection
     INTRINSIC = enum.auto()
 
 def generate_bulge_mask(
@@ -38,24 +41,23 @@ def generate_bulge_mask(
 
     Generate a mask encompassing a circular bulge of a given size with :python:`True` for pixels inside the bulge and :python:`False` for those outside.
 
-    :param int ra_pix: position along the RA axis in pixels
-    :param int dec_pix: position along the Dec axis in pixels
-    :param float z: redshift of the source used to convert physical sizes to angles
+    :param ra_pix: position along the RA axis in :math:`\rm pixels`
+    :type ra_pix: :python:`int`
+    :param dec_pix: position along the Declination axis in :math:`\rm pixels`
+    :type dec_pix: :python:`int`
+    :param z: redshift of the source used to convert physical sizes to angles
+    :type z: :python:`float`
     :param shape: shape of the returned mask
-    :type shape: (int, int)
+    :type shape: :python:`(int, int)`
     :param cosmo: cosmological model used to convert physical sizes to angles
-    :type cosmo: astropy.cosmology.Cosmology
-
-    Keyword parameters
-    ------------------
-
-    :param radius_kpc: radius of the bulge in kpc
-    :type radius_kpc: int or float
-    :param pix_size: size of a pixel in arcsec
-    :type pix_size: int or float
+    :type cosmo: `Cosmology`_
+    :param radius_kpc: radius of the bulge in :math:`\rm kpc`
+    :type radius_kpc: :python:`int` or :python:`float`
+    :param pix_size: size of a pixel in :math:`\rm arcsec`
+    :type pix_size: :python:`int` or :python:`float`
 
     :returns: boolean mask delimiting the bulge
-    :rtype: numpy.ndarray[bool]
+    :rtype: `NDArray`_
     '''
     
     # New bulge mask is simply 1kpc radius to avoid problematic bulge models
@@ -88,18 +90,17 @@ def find_neighbours(pixel       : tuple[int, int],
         Neighbours means adjacent pixels to the left, right, bottom, and top only.
         
     :param pixel: (Y, X) position of the given pixel
-    :type pixel: (int, int)
+    :type pixel: :python:`(int, int)`
     :param pixels: (Y, X) position of all pixels
-    :type pixels: list[(int, int)]
-    :param int max0: maximum position along axis 0
-    :param int max1: maximum position along axis 1
+    :type pixels: :python:`list[(int, int)]`
+    :param max0: maximum position along axis 0
+    :type max0: :python:`int`
+    :param max1: maximum position along axis 1
+    :type max1: :python:`int`
+    :param noTypeCheck: whether not to perform type conversion. Type conversion slows down the code but ensures data are properly cast to the right format to find neighbours.
+    :type noTypeCheck: :python:`bool`
 
-    Keyword parameters
-    ------------------
-    
-    :param bool noTypeCheck: whether not to perform type conversion. Type conversion slows down the code but ensures data are properly cast to the right format to find neighbours.
-    
-    :returns: list of the (Y, X) positions of the adjacent pixels in the input pixel list
+    :returns: List of the (Y, X) positions of the adjacent pixels in the input pixel list.
     :rtype: :python:`list[(int, int)]`
     '''
     
@@ -150,46 +151,32 @@ def compute_surface_mask(segmap  : NDArray[np.integer],
         If the given :python:`value` is not in the segmentation map, the mask is returned as :python:`None`.
     
     :param segmap: segmentation map used to select the pixels forming contiguous structures
-    :type segmap: numpy.ndarray
-
-    Keyword parameters
-    ------------------
-
-    :param int value: value in the segmentation mask that is used to select the pixels. In other words, the mask will only be computed for pixels whose value is equal to :python:`value`.
-    :param int surface: minimum surface in pixels that a contiguous structure must have in order to be kept in the output mask
+    :type segmap: `NDArray`_
+    :param value: value in the segmentation mask that is used to select the pixels. In other words, the mask will only be computed for pixels whose value is equal to :python:`value`.
+    :type value: :python:`int`
+    :param surface: minimum surface in :math:`\rm pixels` that a contiguous structure must have in order to be kept in the output mask
+    :type surface: :python:`int`
     
-    :returns: mask (with a shape equal to :python:`segmap.shape`) with one integer per structure that matches the surface criterion. A value of 0 means no structure (i.e. background pixels).
+    :returns: Mask (with a shape equal to :python:`segmap.shape`) with one integer per structure that matches the surface criterion. A value of 0 means no structure (i.e. background pixels).
     :rtype: 
+
         - :python:`None` if :python:`value not in segmap` else
-        - numpy.ndarray[int]
+        - `NDArray`_
     
     :raises:
+
         * :python:`ValueError` if :python:`segmap.ndim != 2 or surface < 0`
         * :python:`TypeError` if :python:`not isinstance(surface, int)`
     '''
 
-    logger = logging.getLogger(__name__)
+    if segmap.ndim != 2:
+        raise ValueError(f'segmap has {segmap.ndim} dimensions but it must have only two (i.e. an image).')
+
+    if not isinstance(surface, int): 
+        raise TypeError(f'surface has type {type(surface)} but it must be an integer.')
     
-    try:
-        if segmap.ndim != 2:
-            raise ValueError(f'segmap has {segmap.ndim} dimensions but it must have only two (i.e. an image).')
-    except ValueError as e:
-        logger.error(str(e))
-        raise
-
-    try:
-        if not isinstance(surface, int): 
-            raise TypeError(f'surface has type {type(surface)} but it must be an integer.')
-    except TypeError as e:
-        logger.error(str(e))
-        raise
-
-    try:
-        if surface < 0:
-            raise ValueError(f'surface has value {surface} but it must be larger than or equal to 0.')
-    except ValueError as e:
-        logger.error(str(e))
-        raise
+    if surface < 0:
+        raise ValueError(f'surface has value {surface} but it must be larger than or equal to 0.')
 
     # If no value corresponds in the segmap, no need to derive a mask
     if value not in segmap: return

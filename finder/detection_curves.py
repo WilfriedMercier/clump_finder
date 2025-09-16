@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
+r"""
 .. codeauthor:: Wilfried Mercier - LAM <wilfried.mercier@lam.fr>
 
 Detection curves used for the intrinsic detection method.
@@ -28,15 +28,20 @@ def mag_detection_curve(
     
     Compute the AB magnitude detection curve for a substructure evaluated at redshift z.
     
-    Note:
+    .. note::
+
         To get the detection threshold on the pixel level, one must divide the corresponding flux by 20 since the smallest substructures must be made of 20 pixels.
 
     :param z: redshift of the galaxy
-    :type z: :python:`float`, :python:`int`, or :python:`numpy.ndarray`
+    :type z: :python:`float`, :python:`int`, or `NDArray`_
     :param cosmo: cosmology used to convert to intrinsic physical quantities
-    :type cosmo: astropy.cosmomology.Cosmology
+    :type cosmo: `Cosmology`_
 
-    :rtype: :python:`float` or :python:`numpy.ndarray`
+    :returns: AB magnitude detection curve evaluated at :python:`z` for the given cosmology.
+    :rtype: 
+    
+        - :python:`float` if :python:`z` is a :python:`float` or :python:`int`
+        - `NDArray`_ if :python:`z` is a `NDArray`_
     '''
     
     dl = cosmo.luminosity_distance(z).to('Mpc').value #type: ignore
@@ -56,14 +61,18 @@ def flux_detection_curve_pixel_level(
     r'''
     .. codeauthor:: Wilfried Mercier - LAM <wilfried.mercier@lam.fr>
     
-    Compute the flux detection curve in MJy/sr for a pixel in a galaxy at redshift z.
+    Compute the flux detection curve in :math:`\rm MJy\,sr^{-1}` for a pixel in a galaxy at redshift z.
     
     :param z: redshift of the galaxy
-    :type z: :python:`float`, :python:`int`, or :python:`numpy.ndarray`
+    :type z: :python:`float`, :python:`int`, or `NDArray`_
     :param cosmo: cosmology used to convert to intrinsic physical quantities
-    :type cosmo: astropy.cosmomology.Cosmology
+    :type cosmo: `Cosmology`_
 
-    :rtype: :python:`float` or :python:`numpy.ndarray`
+    :returns: Flux detection curve at the pixel level evaluated at :python:`z` for the given cosmology.
+    :rtype: 
+    
+        - :python:`float` if :python:`z` is a :python:`float` or :python:`int`
+        - `NDArray`_ if :python:`z` is a `NDArray`_
     '''
 
     mag_threshold = mag_detection_curve(z, cosmo)
@@ -84,17 +93,21 @@ def surface_detection_curve(
         z     : float | int | NDArray, 
         cosmo : cosmology.Cosmology
     ) -> float | NDArray:
-    '''
+    r'''
     .. codeauthor:: Wilfried Mercier - LAM <wilfried.mercier@lam.fr>
     
-    Compute the surface detection curve evaluated at redshift z in arcsec^2.
+    Compute the surface detection curve evaluated at redshift z in :math:`\rm arcsec^2`.
 
     :param z: redshift of the galaxy
-    :type z: :python:`float`, :python:`int`, or :python:`numpy.ndarray`
+    :type z: :python:`float`, :python:`int`, or `NDArray`_
     :param cosmo: cosmology used to convert to intrinsic physical quantities
-    :type cosmo: astropy.cosmomology.Cosmology
+    :type cosmo: `Cosmology`_
 
-    :rtype: :python:`float` or :python:`numpy.ndarray`
+    :returns: Surface detection curve evaluated at :python:`z` for the given cosmology.
+    :rtype: 
+    
+        - :python:`float` if :python:`z` is a :python:`float` or :python:`int`
+        - `NDArray`_ if :python:`z` is a `NDArray`_
     '''
     
     da = cosmo.angular_diameter_distance(z).to('Gpc').value #type: ignore
