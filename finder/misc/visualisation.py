@@ -18,51 +18,51 @@ from   matplotlib.gridspec                 import GridSpec
 from   astropy.visualization.mpl_normalize import simple_norm
 
 def plot_im_residuals(
-        image:        NDArray[np.float32],
-        res:          NDArray[np.float32], 
+        image:        NDArray[np.floating],
+        res:          NDArray[np.floating], 
         mask:         NDArray[np.bool],
-        segmap:       NDArray[np.int16],
+        segmap:       NDArray[np.integer],
         band:         str,
         idd:          int,
         z:            float,
         bg_mask:      NDArray[np.bool] | None = None,
         cmap:         str | mcol.Colormap     = 'plasma',
         plotPath:     str                     = '',
-        zoom_bounds:  list[int] | None        = None,
+        zoom_bounds:  tuple[int, int, int, int] | None = None,
         bulge_params: list[float]             = []
     ) -> None:
     r'''
     .. codeauthor:: Wilfried Mercier - LAM <wilfried.mercier@lam.fr>
     
-    Make a plot with image, model, and residuals, showing the segmentation map.
+    Produce a plot with image, model, and residuals, showing the substructure segmentation map.
     
     :param image: image of the galaxy in the given band
-    :type image: numpy.ndarray
+    :type image: `NDArray`_
     :param res: residual image 
-    :type res: numpy.ndarray
-    :param mask: segmentation mask with True corresponding to the galaxy and False outside of the galaxy
-    :type mask: numpy.ndarray[bool]
-    :param segmap: segmentation map for the clumps with 1 for positive clumps and -1 for negative clumps
-    :type segmap: numpy.ndarray[int]
-    :param str band: band for this image
-    :param int idd: ID of the galaxy
-    :param float z: redshift of the galaxy
-    
-    Keyword parameters
-    ------------------
-    
-    :param bg_mask: mask with True for the background pixels and False otherwise
-    :type bg_mask: numpy.ndarray[bool]
-    :param str cmap: colormap used for the image and model
-    :param norm: norm to use for the image and model
-    :type norm: astropy.visualization.mpl_normalize.ImageNormalize
-    :param bool show: whether to show the model or not
-    :param bool savefig: whether to save the figure or not
-    :param list zoom_bounds: list of bounds (ymin, ymax, xmin, xmax) to zoom-in on the plots. 
-    :param list bulge_params: list of parameters to plot the bulge mask on top of the image. Parameters are: [x position, y position, radius in pixels]
+    :type res: `NDArray`_
+    :param mask: segmentation mask with :python:`True` corresponding to the galaxy and :python:`False` outside of the galaxy
+    :type mask: `NDArray`_
+    :param segmap: substructure segmentation map
+    :type segmap: `NDArray`_
+    :param band: band for this image
+    :type band: :python:`str`
+    :param idd: ID of the galaxy
+    :type idd: :python:`int`
+    :param z: redshift of the galaxy
+    :type z: :python:`float`
+    :param bg_mask: mask with :python:`True` for the background pixels and :python:`False` otherwise
+    :type bg_mask: `NDArray`_
+    :param cmap: colormap used for the image and model
+    :type cmap: :python:`str` or `Colormap`_
+    :param plotPath: output path for the figure
+    :type plotPath: :python:`str`
+    :param zoom_bounds: list of bounds (ymin, ymax, xmin, xmax) to zoom-in on the plots. If :python:`None`, there is no zoom.
+    :type zoom_bounds: :python:`(int, int, int, int)` or :python:`None`
+    :param bulge_params: list of parameters to plot the bulge mask on top of the image. Parameters are: [x position, y position, radius in :math:`\rm pixels`]
+    :type bulge_params: :python:`list`
     '''
     
-    if zoom_bounds is None: zoom_bounds = [0, res.shape[1], 0, res.shape[0]]
+    if zoom_bounds is None: zoom_bounds = (0, res.shape[1], 0, res.shape[0])
     
     # Masked versions of the residuals
     res_msk         = copy.deepcopy(res)
