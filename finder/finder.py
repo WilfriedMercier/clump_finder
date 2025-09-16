@@ -6,7 +6,6 @@
 Utilities for substructure detection.
 """
 
-import logging
 import numpy        as     np
 from   numpy.typing import NDArray
 
@@ -113,23 +112,13 @@ class ClumpFinder:
             - there is no background mask given at initialization
             - :python:`n_sigma < 0`
         '''
-
-        logger = logging.getLogger(__name__)
         
-        try:
-            if self.mask_bg is None:
-                raise ValueError('No background mask provided. Please provide a mask at initialisation before calling this method.')
-        except ValueError as e:
-            logger.error(str(e))
-            raise
-
-        try:
-            if surface < 0:
-                raise ValueError(f'Surface is equal to {surface} but it must be larger than or equal to 0.')
-        except ValueError as e:
-            logger.error(str(e))
-            raise
-
+        if self.mask_bg is None:
+            raise ValueError('No background mask provided. Please provide a mask at initialisation before calling this method.')
+        
+        if surface < 0:
+            raise ValueError(f'Surface is equal to {surface} but it must be larger than or equal to 0.')
+    
         # Residuals 
         res : NDArray[np.floating] = self.image - model_im # type: ignore
         
