@@ -7,7 +7,6 @@ Miscellaneous functions.
 """
 
 import regions
-import logging
 import enum
 import astropy.units       as u
 import astropy.cosmology   as cosmology
