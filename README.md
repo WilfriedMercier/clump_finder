@@ -1,24 +1,18 @@
-# Information about the clump pipeline package
+The goal of the algorithm is to find contiguous structures of pixels in an image given that:
 
-The full clump detection pipeline is done with the following code
+1. each pixel is brighther than a given threshold and
+2. the contiguous structure is more extended than a given area.
+
+This algorithm can be used to detect substructures in residual images as follows
 
 ```python
-import find_clumps
+from finder import ClumpFinder
 
-find_clumps.process_galaxies(config)
+cf = ClumpFinder(
+    image, mask, mask_bg, mask_bulge
+)
+
+cf.detect(model, flux_threshold, surface_threshold)
 ```
 
-where `config` is the name of the configuration file. All the details about the clump detection are stored in the configuration file.
-
-## Details about package structure
-
-|          File      |     Description    |
-|--------------------|--------------------|
-| clump_utils.py | Set of utility functions and classes used for clump detection                   |
-| configuration.yaml | An example of configuration file |
-| cutout_utils.py | Set of utility functions used to create cutouts necessary for clump detection                   |
-| detection_curves.py | Functions containing the detection curves used by the intrinsic detection method                   |
-| find_clumps.py | Routines used to perform clump detection in the pipeline |
-| load_routines.py | Routines used to load the configuration file and the input files |
-| misc.py | Miscellaneous functions |
-| visualization.py | Functions used to create recap files to visualize clump detection |
+For more details, please refer to the documentation and check the examples directory.
