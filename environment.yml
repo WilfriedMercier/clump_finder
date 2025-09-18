@@ -1,0 +1,10 @@
+name: clump_finder
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python>=3.10
+  - numpy>=2.0.1
+  - astropy>=6.1.7
+  - matplotlib>=3.10.0
+  - regions>=0.10
