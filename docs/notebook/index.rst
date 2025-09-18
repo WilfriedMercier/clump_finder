@@ -6,7 +6,6 @@ Notebook examples
 
     optimal
     intrinsic
-    background_estimation
 
 .. grid:: 2
 
