@@ -1,2 +1,3 @@
 *.pyc
 .coverage
+jupyter_execute/*
