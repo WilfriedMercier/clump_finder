@@ -1,3 +1,4 @@
+[![Test and coverage](https://github.com/WilfriedMercier/clump_finder/actions/workflows/python-package-conda.yml/badge.svg)](https://github.com/WilfriedMercier/clump_finder/actions/workflows/python-package-conda.yml)
 [![pages-build-deployment](https://github.com/WilfriedMercier/clump_finder/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/WilfriedMercier/clump_finder/actions/workflows/pages/pages-build-deployment)
 
 The goal of the algorithm is to find contiguous structures of pixels in an image given that:
