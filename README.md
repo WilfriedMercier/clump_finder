@@ -1,3 +1,5 @@
+[![pages-build-deployment](https://github.com/WilfriedMercier/clump_finder/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/WilfriedMercier/clump_finder/actions/workflows/pages/pages-build-deployment)
+
 The goal of the algorithm is to find contiguous structures of pixels in an image given that:
 
 1. each pixel is brighther than a given threshold and
