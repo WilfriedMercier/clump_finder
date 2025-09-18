@@ -1,0 +1,594 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" data-theme="light">
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Other functions and classes &#8212; Clump finder</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/jupyter-sphinx.css?v=572af1d6" />
+    <link rel="stylesheet" type="text/css" href="../_static/thebelab.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/thebelab-helper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@^1.0.1/dist/embed-amd.js"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'API/misc';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Visualisation routine" href="visualisation.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="light">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+  
+    <p class="title logo__title">Clump finder</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../notebook/index.html">
+    Notebook examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/WilfriedMercier/clump_finder/tree/main" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../notebook/index.html">
+    Notebook examples
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/WilfriedMercier/clump_finder/tree/main" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="finder.html">Substructure finder</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background.html">Background estimation functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="detection_curves.html">Detection curves</a></li>
+<li class="toctree-l1"><a class="reference internal" href="substructure_properties.html">Substrucure properties</a></li>
+<li class="toctree-l1"><a class="reference internal" href="visualisation.html">Visualisation routine</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Other functions and classes</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Other functions and classes</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="module-clump_finder.finder.misc.misc">
+<span id="other-functions-and-classes"></span><h1>Other functions and classes<a class="headerlink" href="#module-clump_finder.finder.misc.misc" title="Link to this heading">#</a></h1>
+<p><em>Code author: Wilfried Mercier - LAM &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;lam&#46;fr">wilfried<span>&#46;</span>mercier<span>&#64;</span>lam<span>&#46;</span>fr</a>&gt;</em></p>
+<p>Miscellaneous functions.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="clump_finder.finder.misc.misc.DETECTION_TYPE">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DETECTION_TYPE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/clump_finder/finder/misc/misc.html#DETECTION_TYPE"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#clump_finder.finder.misc.misc.DETECTION_TYPE" title="Link to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Enum</span></code></p>
+<p><em>Code author: Wilfried Mercier - LAM &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;lam&#46;fr">wilfried<span>&#46;</span>mercier<span>&#64;</span>lam<span>&#46;</span>fr</a>&gt;</em></p>
+<p>Various types of detection techniques. See <a class="reference external" href="https://arxiv.org/abs/2506.13881">Mercier et al. (2025)</a>.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clump_finder.finder.misc.misc.DETECTION_TYPE.INTRINSIC">
+<span class="sig-name descname"><span class="pre">INTRINSIC</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#clump_finder.finder.misc.misc.DETECTION_TYPE.INTRINSIC" title="Link to this definition">#</a></dt>
+<dd><p>Intrinsic detection</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="clump_finder.finder.misc.misc.DETECTION_TYPE.OPTIMAL">
+<span class="sig-name descname"><span class="pre">OPTIMAL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#clump_finder.finder.misc.misc.DETECTION_TYPE.OPTIMAL" title="Link to this definition">#</a></dt>
+<dd><p>Optimal detection</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="clump_finder.finder.misc.misc.compute_surface_mask">
+<span class="sig-name descname"><span class="pre">compute_surface_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">segmap</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">surface</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/clump_finder/finder/misc/misc.html#compute_surface_mask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#clump_finder.finder.misc.misc.compute_surface_mask" title="Link to this definition">#</a></dt>
+<dd><p><em>Code author: Wilfried Mercier - LAM &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;lam&#46;fr">wilfried<span>&#46;</span>mercier<span>&#64;</span>lam<span>&#46;</span>fr</a>&gt;</em></p>
+<p>Compute a mask that keeps pixels that satisfy the surface threshold described below. Each independent structure will have a unique integer associated to it.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Pixels are selected by the mask if they form a contiguous structure whose surface is larger than the given minimum surface. Contiguity is defined here as adjacent pixels along the left, right, bottom, and top directions (i.e. no diagonal).</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If the given <code class="code highlight python docutils literal highlight-python"><span class="n">value</span></code> is not in the segmentation map, the mask is returned as <code class="code highlight python docutils literal highlight-python"><span class="kc">None</span></code>.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>segmap</strong> (<a class="reference external" href="https://numpy.org/devdocs/reference/typing.html#numpy.typing.NDArray">NDArray</a>) – segmentation map used to select the pixels forming contiguous structures</p></li>
+<li><p><strong>value</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">int</span></code>) – value in the segmentation mask that is used to select the pixels. In other words, the mask will only be computed for pixels whose value is equal to <code class="code highlight python docutils literal highlight-python"><span class="n">value</span></code>.</p></li>
+<li><p><strong>surface</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">int</span></code>) – minimum surface in <span class="math notranslate nohighlight">\(\rm pixels\)</span> that a contiguous structure must have in order to be kept in the output mask</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Mask (with a shape equal to <code class="code highlight python docutils literal highlight-python"><span class="n">segmap</span><span class="o">.</span><span class="n">shape</span></code>) with one integer per structure that matches the surface criterion. A value of 0 means no structure (i.e. background pixels).</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><code class="code highlight python docutils literal highlight-python"><span class="kc">None</span></code> if <code class="code highlight python docutils literal highlight-python"><span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">segmap</span></code> else</p></li>
+<li><p><a class="reference external" href="https://numpy.org/devdocs/reference/typing.html#numpy.typing.NDArray">NDArray</a></p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><code class="code highlight python docutils literal highlight-python"><span class="ne">ValueError</span></code> if <code class="code highlight python docutils literal highlight-python"><span class="n">segmap</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">surface</span> <span class="o">&lt;</span> <span class="mi">0</span></code></p></li>
+<li><p><code class="code highlight python docutils literal highlight-python"><span class="ne">TypeError</span></code> if <code class="code highlight python docutils literal highlight-python"><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">surface</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="clump_finder.finder.misc.misc.find_neighbours">
+<span class="sig-name descname"><span class="pre">find_neighbours</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pixel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pixels</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">noTypeCheck</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/clump_finder/finder/misc/misc.html#find_neighbours"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#clump_finder.finder.misc.misc.find_neighbours" title="Link to this definition">#</a></dt>
+<dd><p><em>Code author: Wilfried Mercier - LAM &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;lam&#46;fr">wilfried<span>&#46;</span>mercier<span>&#64;</span>lam<span>&#46;</span>fr</a>&gt;</em></p>
+<p>Given a pixel position and a list of all pixel positions, find neighbours that are in the list.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Neighbours means adjacent pixels to the left, right, bottom, and top only.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pixel</strong> (<code class="code highlight python docutils literal highlight-python"><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span></code>) – (Y, X) position of the given pixel</p></li>
+<li><p><strong>pixels</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">list</span><span class="p">[(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">)]</span></code>) – (Y, X) position of all pixels</p></li>
+<li><p><strong>max0</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">int</span></code>) – maximum position along axis 0</p></li>
+<li><p><strong>max1</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">int</span></code>) – maximum position along axis 1</p></li>
+<li><p><strong>noTypeCheck</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">bool</span></code>) – whether not to perform type conversion. Type conversion slows down the code but ensures data are properly cast to the right format to find neighbours.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>List of the (Y, X) positions of the adjacent pixels in the input pixel list.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><code class="code highlight python docutils literal highlight-python"><span class="nb">list</span><span class="p">[(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">)]</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="clump_finder.finder.misc.misc.generate_bulge_mask">
+<span class="sig-name descname"><span class="pre">generate_bulge_mask</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ra_pix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dec_pix</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">z</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cosmo</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius_kpc</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pix_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.03</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/clump_finder/finder/misc/misc.html#generate_bulge_mask"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#clump_finder.finder.misc.misc.generate_bulge_mask" title="Link to this definition">#</a></dt>
+<dd><p><em>Code author: Wilfried Mercier - LAM &lt;<a class="reference external" href="mailto:wilfried&#46;mercier&#37;&#52;&#48;lam&#46;fr">wilfried<span>&#46;</span>mercier<span>&#64;</span>lam<span>&#46;</span>fr</a>&gt;</em></p>
+<p>Generate a mask encompassing a circular bulge of a given size with <code class="code highlight python docutils literal highlight-python"><span class="kc">True</span></code> for pixels inside the bulge and <code class="code highlight python docutils literal highlight-python"><span class="kc">False</span></code> for those outside.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ra_pix</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">int</span></code>) – position along the RA axis in <span class="math notranslate nohighlight">\(\rm pixels\)</span></p></li>
+<li><p><strong>dec_pix</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">int</span></code>) – position along the Declination axis in <span class="math notranslate nohighlight">\(\rm pixels\)</span></p></li>
+<li><p><strong>z</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">float</span></code>) – redshift of the source used to convert physical sizes to angles</p></li>
+<li><p><strong>shape</strong> (<code class="code highlight python docutils literal highlight-python"><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span></code>) – shape of the returned mask</p></li>
+<li><p><strong>cosmo</strong> (<a class="reference external" href="https://docs.astropy.org/en/stable/api/astropy.cosmology.Cosmology.html">Cosmology</a>) – cosmological model used to convert physical sizes to angles</p></li>
+<li><p><strong>radius_kpc</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">int</span></code> or <code class="code highlight python docutils literal highlight-python"><span class="nb">float</span></code>) – radius of the bulge in <span class="math notranslate nohighlight">\(\rm kpc\)</span></p></li>
+<li><p><strong>pix_size</strong> (<code class="code highlight python docutils literal highlight-python"><span class="nb">int</span></code> or <code class="code highlight python docutils literal highlight-python"><span class="nb">float</span></code>) – size of a pixel in <span class="math notranslate nohighlight">\(\rm arcsec\)</span></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>boolean mask delimiting the bulge</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://numpy.org/devdocs/reference/typing.html#numpy.typing.NDArray">NDArray</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="visualisation.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Visualisation routine</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clump_finder.finder.misc.misc.DETECTION_TYPE"><code class="docutils literal notranslate"><span class="pre">DETECTION_TYPE</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clump_finder.finder.misc.misc.DETECTION_TYPE.INTRINSIC"><code class="docutils literal notranslate"><span class="pre">DETECTION_TYPE.INTRINSIC</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clump_finder.finder.misc.misc.DETECTION_TYPE.OPTIMAL"><code class="docutils literal notranslate"><span class="pre">DETECTION_TYPE.OPTIMAL</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clump_finder.finder.misc.misc.compute_surface_mask"><code class="docutils literal notranslate"><span class="pre">compute_surface_mask()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clump_finder.finder.misc.misc.find_neighbours"><code class="docutils literal notranslate"><span class="pre">find_neighbours()</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#clump_finder.finder.misc.misc.generate_bulge_mask"><code class="docutils literal notranslate"><span class="pre">generate_bulge_mask()</span></code></a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/API/misc.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2024 - 2025, Wilfried Mercier.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
