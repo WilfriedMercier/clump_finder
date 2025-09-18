@@ -8,13 +8,19 @@
 Installation and dependencies
 =============================
 
-This software is **not** provided through pypi, conda, or uv. To use it, simply download it and put it into your path.
-This software has been developped with python version 3.10 and with the following dependencies:
+This software was developped with python version 3.10 and the following dependencies: `numpy <https://numpy.org/>`_ (v2.0.1), `astropy <https://www.astropy.org/>`_ (v6.1.7), `regions <https://astropy-regions.readthedocs.io/en/stable/index.html>`_ (v0.10), `matplotlib <https://matplotlib.org/>`_ (v3.10.0).
+It can be installed with the following command
 
-- `numpy <https://numpy.org/>`_ : 2.0.1
-- `astropy <https://www.astropy.org/>`_ : 6.1.7
-- `regions <https://astropy-regions.readthedocs.io/en/stable/index.html>`_ : 0.10
-- `matplotlib <https://matplotlib.org/>`_ : 3.10.0
+.. code-block:: bash
+
+    $ conda env create -f environment.yml
+
+Then, activate the conda environment to start using it. 
+If you plan to run the provided examples, also consider installing `marimo <https://marimo.io/>`_ with
+
+.. code-block:: bash
+
+    $ pip install marimo
 
 General description
 ===================
