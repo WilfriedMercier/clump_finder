@@ -6,6 +6,7 @@ Notebook examples
 
     optimal
     intrinsic
+    catalogue
 
 .. grid:: 2
 
@@ -28,7 +29,7 @@ Notebook examples
     .. grid-item::
 
         .. card:: Using catalogues
-            :link: intrinsic
+            :link: catalogue
             :link-type: doc
 
             Examples of how to use the substructure catalogues associated to the code (published to the CDS) to reproduce some figures from the paper.
