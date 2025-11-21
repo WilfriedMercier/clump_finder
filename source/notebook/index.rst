@@ -24,3 +24,11 @@ Notebook examples
             :link-type: doc
 
             Comparison of intrinsic and optimal detection techniques.
+
+    .. grid-item::
+
+        .. card:: Using catalogues
+            :link: intrinsic
+            :link-type: doc
+
+            Examples of how to use the substructure catalogues associated to the code (published to the CDS) to reproduce some figures from the paper.
