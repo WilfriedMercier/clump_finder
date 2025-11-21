@@ -1,5 +1,0 @@
-Example of optimal background estimation
-========================================
-
-.. raw:: html
-    :file: ../_static/background_estimation.html
